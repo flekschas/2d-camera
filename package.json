@@ -1,8 +1,8 @@
 {
-  "name": "2d-camera",
+  "name": "camera-2d",
   "version": "1.0.0",
   "description": "2D camera for WebGL",
-  "main": "dist/dist/2d-camera.umd.js",
+  "main": "dist/dist/camera-2d.umd.js",
   "module": "src/index.js",
   "directories": {
     "example": "example"
