@@ -1,6 +1,6 @@
-orbit-camera
+2D Camera
 ============
-Simple arcball camera built on top of gl-matrix
+Simple camera built on top of gl-matrix for 2D scenes.
 
 ## Example
 
@@ -30,7 +30,7 @@ shell.on("gl-render", function(t) {
   shader.uniforms.model = scratch
   shader.uniforms.projection = mat4.perspective(scratch, Math.PI/4.0, shell.width/shell.height, 0.1, 1000.0)
   shader.uniforms.view = camera.view(scratch)
-  
+
   mesh.bind(shader)
   mesh.draw()
   mesh.unbind()
@@ -54,7 +54,7 @@ shell.on("tick", function() {
 ## Install
 
     npm install orbit-camera
-    
+
 ## API
 
 ```javascript

@@ -1,36 +1,54 @@
 {
-  "name": "orbit-camera",
+  "name": "2d-camera",
   "version": "1.0.0",
-  "description": "Orbiting 3D camera for WebGL",
-  "main": "orbit.js",
+  "description": "2D camera for WebGL",
+  "main": "dist/dist/2d-camera.umd.js",
+  "module": "src/index.js",
   "directories": {
     "example": "example"
   },
   "dependencies": {
-    "gl-matrix": "^2.2.0"
+    "gl-matrix": "^2.7.0"
   },
   "devDependencies": {
-    "bunny": "~1.0.0",
-    "simple-3d-shader": "~0.0.0",
-    "gl-mesh": "~0.1.0",
-    "gl-now": "~0.0.3"
+    "agadoo": "^1.0.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^8.2.6",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-loader": "^2.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "unminified-webpack-plugin": "^2.0.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.5"
   },
   "scripts": {
+    "build": "webpack --mode production",
+    "prerelease": "rm -rf dist/*; npm run build; zip -r dist.zip dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/mikolalysenko/orbit-camera.git"
+    "url": "git://github.com/flekschas/2d-camera.git"
   },
   "keywords": [
-    "orbit",
-    "camera"
+    "2d",
+    "camera",
+    "webgl"
   ],
-  "author": "Mikola Lysenko",
+  "author": "Fritz Lekschas",
   "license": "MIT",
-  "readmeFilename": "README.md",
-  "gitHead": "861a37161753635080e15b6567ede6a5f30b0ae5",
   "bugs": {
-    "url": "https://github.com/mikolalysenko/orbit-camera/issues"
+    "url": "https://github.com/flekschas/2d-camera/issues"
   }
 }
