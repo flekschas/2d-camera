@@ -1,4 +1,14 @@
-define("2d-camera", [], function() { return /******/ (function(modules) { // webpackBootstrap
+(function webpackUniversalModuleDefinition(root, factory) {
+	if(typeof exports === 'object' && typeof module === 'object')
+		module.exports = factory();
+	else if(typeof define === 'function' && define.amd)
+		define([], factory);
+	else if(typeof exports === 'object')
+		exports["camera-2d.umd.js"] = factory();
+	else
+		root["camera-2d.umd.js"] = factory();
+})(window, function() {
+return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
 /******/
@@ -4536,20 +4546,21 @@ const forEach = (function() {
 
 
 
-// Scratch variables
-var scratch0 = new Float32Array(16);
-var scratch1 = new Float32Array(16);
-
-function Camera2D() {
+var src_Camera2D = function Camera2D() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
       _ref$initTarget = _ref.initTarget,
       initTarget = _ref$initTarget === undefined ? [0, 0] : _ref$initTarget,
       _ref$initDistance = _ref.initDistance,
       initDistance = _ref$initDistance === undefined ? 1.0 : _ref$initDistance;
 
+  // Scratch variables
+  var scratch0 = new Float32Array(16);
+  var scratch1 = new Float32Array(16);
+
   var target = initTarget;
-  var center = vec3_namespaceObject.create();
   var distance = initDistance;
+
+  var center = vec3_namespaceObject.create();
 
   var view = function view(out) {
     if (!out) out = mat4_namespaceObject.create(); // eslint-disable-line no-param-reassign
@@ -4598,14 +4609,10 @@ function Camera2D() {
   return {
     view: view, lookAt: lookAt, pan: pan, zoom: zoom
   };
-}
-
-var src_create = function create(target, distance) {
-  var camera = Camera2D(target, distance);
-  return camera.lookAt(target, distance);
 };
 
-/* harmony default export */ var src = __webpack_exports__["default"] = (src_create);
+/* harmony default export */ var src = __webpack_exports__["default"] = (src_Camera2D);
 
 /***/ })
-/******/ ])});;
+/******/ ]);
+});
