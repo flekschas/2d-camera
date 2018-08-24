@@ -1,8 +1,8 @@
 2D Camera
 ============
-Simple camera built on top of gl-matrix for 2D scenes.
+Simple camera built on top of gl-matrix for 2D scenes. Heavily inspired by [Mikola's Orbit Camera](https://github.com/mikolalysenko/orbit-camera).
 
-## Example
+## Example (Outdated)
 
 ```javascript
 var shell = require("gl-now")()
@@ -53,37 +53,32 @@ shell.on("tick", function() {
 
 ## Install
 
-    npm install orbit-camera
+```
+npm install orbit-camera
+```
 
 ## API
 
 ```javascript
-var createOrbitCamera = require("orbit-camera")
+import Camera from '2d-camera';
 ```
 
-### `var camera = createOrbitCamera(eye, center, up)`
-Creates an orbit camera looking at `center`.  This has the same semantics as `gluLookAt`
+### `const camera = Camera(target = [0, 0], distance = 1)`
+Creates a 2d camera looking at `target` from a certain `distance`.
 
-* `eye` is the eye vector of the camera
-* `center` is the target the camera is looking at
-* `up` is the up direction for the camera
+* `target` is the 2d vector the camera is looking at.
+* `distance` is the distance between the target and the camera.
 
-**Returns** A new orbit camera object
+**Returns** A new 2d camera object
 
-### `camera.lookAt(eye, center, up)`
+### `camera.lookAt(target = [0, 0], distance = 1)`
 Move the camera to look at the new position.
 
 ### `camera.pan(translation)`
-Moves the center of the camera by `translation`.  Note that translation must be an array of length either 2 or 3
-
-### `camera.rotate(cur, prev)`
-Applies a rotation to the camera.  `cur` and `prev` are the state of the previous locations.  These can be pairs of 2D arrays representing the mouse coordinates in distance relative to the center of the sceen.
+Moves the center of the camera by `translation`.  Note that translation must be an array of length 2.
 
 ### `camera.zoom(delta)`
 Zooms in or out by some amount
 
 ### `camera.view([out])`
 Returns the current view matrix associated to the camera
-
-## Credits
-(c) 2013 Mikola Lysenko. MIT License
