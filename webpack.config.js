@@ -5,8 +5,8 @@ const UnminifiedWebpackPlugin = require('unminified-webpack-plugin');
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: 'camera-2d.min.umd',
-    library: 'camera-2d.umd',
+    filename: 'camera-2d.min.umd.js',
+    library: 'camera-2d.umd.js',
     libraryTarget: 'umd',
     path: path.resolve(__dirname, 'dist'),
   },
