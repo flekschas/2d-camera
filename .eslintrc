@@ -7,9 +7,8 @@
     "eslint:recommended",
     "airbnb/base",
   ],
-  "parser": "babel-eslint",
   "parserOptions": {
-    "ecmaFeatures": {},
-    "ecmaVersion": 6
+    "ecmaVersion": 6,
+    "sourceType": "module",
   },
 }

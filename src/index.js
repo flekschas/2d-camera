@@ -2,7 +2,7 @@ import {
   mat3, mat4, vec3,
 } from 'gl-matrix';
 
-const Camera2D = ({
+const createCamera = ({
   initTarget = [0, 0],
   initDistance = 1.0,
 } = {}) => {
@@ -56,4 +56,4 @@ const Camera2D = ({
   };
 };
 
-export default Camera2D;
+export default createCamera;
