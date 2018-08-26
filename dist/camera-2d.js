@@ -18,6 +18,26 @@
 
     var center = glMatrix.vec3.create();
 
+    var getDistance = function () { return distance; };
+    var setDistance = function (d) {
+      distance = d;
+      if (distance < 0.0) { distance = 0.0; }
+    };
+
+    var getPosition = function () { return [center[0], center[1], distance]; };
+
+    var getTarget = function () { return center.slice(0, 2); };
+
+    var transformation = function () {
+      var out = glMatrix.mat3.create();
+      var ref = getTarget();
+      var x = ref[0];
+      var y = ref[1];
+      glMatrix.mat3.fromTranslation(out, [-1 * x, -1 * y]);
+      glMatrix.mat3.scale(out, out, [distance, distance]);
+      return out;
+    };
+
     var view = function (out) {
       if (!out) { out = glMatrix.mat4.create(); } // eslint-disable-line no-param-reassign
 
@@ -53,13 +73,18 @@
       glMatrix.vec3.sub(center, center, scratch0);
     };
 
-    var zoom = function (d) {
-      distance += d;
-      if (distance < 0.0) { distance = 0.0; }
-    };
+    var zoom = function (d) { return setDistance(distance * d); };
 
     return {
-      view: view, lookAt: lookAt, pan: pan, zoom: zoom,
+      get target() { return getTarget(); },
+      get distance() { return getDistance(); },
+      set distance(d) { setDistance(d); },
+      get position() { return getPosition(); },
+      get transformation() { return transformation(); },
+      view: view,
+      lookAt: lookAt,
+      pan: pan,
+      zoom: zoom,
     };
   };
 

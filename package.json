@@ -9,7 +9,7 @@
     "webgl"
   ],
   "license": "MIT",
-  "main": "dist/camera-2d.umd.js",
+  "main": "dist/camera-2d.js",
   "module": "src/index.js",
   "files": [
     "src/index.js",

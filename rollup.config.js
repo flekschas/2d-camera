@@ -7,13 +7,15 @@ const config = (file, format, plugins) => ({
     name: 'Camera2d',
     format,
     file,
-    globals: [],
+    globals: {
+      'gl-matrix': 'glMatrix',
+    },
   },
   plugins,
   external: ['gl-matrix'],
 });
 
 export default [
-  config('dist/camera-2d.umd.js', 'umd', [buble()]),
-  config('dist/camera-2d.umd.min.js', 'umd', [buble(), terser()]),
+  config('dist/camera-2d.js', 'umd', [buble()]),
+  config('dist/camera-2d.min.js', 'umd', [buble(), terser()]),
 ];
