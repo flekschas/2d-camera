@@ -43,6 +43,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch": "rollup -cw"
   },
+  "homepage": "https://github.com/flekschas/camera-2d",
   "repository": {
     "type": "git",
     "url": "git://github.com/flekschas/camera-2d.git"

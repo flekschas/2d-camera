@@ -4,7 +4,7 @@ import buble from 'rollup-plugin-buble';
 const config = (file, format, plugins) => ({
   input: 'src/index.js',
   output: {
-    name: 'Camera2d',
+    name: 'createCamera2d',
     format,
     file,
     globals: {
