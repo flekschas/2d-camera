@@ -16,6 +16,7 @@
     "dist/camera-2d.js",
     "dist/camera-2d.min.js"
   ],
+  "unpkg": "dist/camera-2d.min.js",
   "dependencies": {
     "gl-matrix": "^2.7.0"
   },
