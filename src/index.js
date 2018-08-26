@@ -15,6 +15,24 @@ const createCamera = ({
 
   let center = vec3.create();
 
+  const getDistance = () => distance;
+  const setDistance = (d) => {
+    distance = d;
+    if (distance < 0.0) distance = 0.0;
+  };
+
+  const getPosition = () => [center[0], center[1], distance];
+
+  const getTarget = () => center.slice(0, 2);
+
+  const transformation = () => {
+    const out = mat3.create();
+    const [x, y] = getTarget();
+    mat3.fromTranslation(out, [-1 * x, -1 * y]);
+    mat3.scale(out, out, [distance, distance]);
+    return out;
+  };
+
   const view = (out) => {
     if (!out) out = mat4.create(); // eslint-disable-line no-param-reassign
 
@@ -46,13 +64,18 @@ const createCamera = ({
     vec3.sub(center, center, scratch0);
   };
 
-  const zoom = (d) => {
-    distance += d;
-    if (distance < 0.0) distance = 0.0;
-  };
+  const zoom = d => setDistance(distance * d);
 
   return {
-    view, lookAt, pan, zoom,
+    get target() { return getTarget(); },
+    get distance() { return getDistance(); },
+    set distance(d) { setDistance(d); },
+    get position() { return getPosition(); },
+    get transformation() { return transformation(); },
+    view,
+    lookAt,
+    pan,
+    zoom,
   };
 };
 

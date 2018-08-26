@@ -60,10 +60,10 @@ npm install orbit-camera
 ## API
 
 ```javascript
-import Camera from '2d-camera';
+import createCamera from 'camera-2d';
 ```
 
-### `const camera = Camera(target = [0, 0], distance = 1)`
+### `const camera = createCamera(target = [0, 0], distance = 1)`
 Creates a 2d camera looking at `target` from a certain `distance`.
 
 * `target` is the 2d vector the camera is looking at.
@@ -78,7 +78,13 @@ Move the camera to look at the new position.
 Moves the center of the camera by `translation`.  Note that translation must be an array of length 2.
 
 ### `camera.zoom(delta)`
-Zooms in or out by some amount
+Zooms in or out by some amount. I.e., the new distance is defined as `distance * delta`.
 
 ### `camera.view([out])`
-Returns the current view matrix associated to the camera
+Returns the current view matrix associated to the camera.
+
+### `camera.position`
+Is an array of length 3 comprised of the target (x, y) and distance (z) of the camera.
+
+### `camera.transformation`
+Is the current transformation `mat3` associated to the camera.
