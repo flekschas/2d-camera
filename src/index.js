@@ -3,8 +3,8 @@ import {
 } from 'gl-matrix';
 
 const createCamera = ({
-  initTarget = [0, 0],
-  initDistance = 1.0,
+  target: initTarget = [0, 0],
+  distance: initDistance = 1.0,
 } = {}) => {
   // Scratch variables
   const scratch0 = new Float32Array(16);
@@ -23,12 +23,11 @@ const createCamera = ({
 
   const getPosition = () => [center[0], center[1], distance];
 
-  const getTarget = () => center.slice(0, 2);
+  const getTarget = () => center.slice(0, 2).map(x => -1 * x);
 
   const transformation = () => {
     const out = mat3.create();
-    const [x, y] = getTarget();
-    mat3.fromTranslation(out, [-1 * x, -1 * y]);
+    mat3.fromTranslation(out, getTarget());
     mat3.scale(out, out, [distance, distance]);
     return out;
   };
@@ -45,7 +44,7 @@ const createCamera = ({
   };
 
   const lookAt = ([x = 0, y = 0], newDistance = 1) => {
-    target = [+x >= 0 ? +x : 0, +y >= 0 ? +y : 0];
+    target = [+x * -1 || 0, +y * -1 || 0];
     distance = +newDistance >= 0 ? newDistance : 1;
 
     const eye = [target[0], target[1], -1 * distance];
@@ -65,6 +64,9 @@ const createCamera = ({
   };
 
   const zoom = d => setDistance(distance * d);
+
+  // Init
+  lookAt(target, distance);
 
   return {
     get target() { return getTarget(); },
