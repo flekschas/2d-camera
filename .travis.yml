@@ -19,7 +19,6 @@ deploy:
     on:
       branch: master
       tags: true
-      repo: flekschas/higlass-scalable-insets
   - provider: npm
     skip_cleanup: true
     email: service@lekschas.de
@@ -28,4 +27,3 @@ deploy:
     on:
       branch: master
       tags: true
-      repo: flekschas/higlass-scalable-insets
