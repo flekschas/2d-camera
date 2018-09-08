@@ -1,5 +1,5 @@
 {
-  "name": "camera-2d",
+  "name": "camera-2d-simple",
   "version": "1.0.0",
   "description": "2D camera for WebGL",
   "author": "Fritz Lekschas",
