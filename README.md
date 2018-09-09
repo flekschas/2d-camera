@@ -4,6 +4,11 @@
 
 > Simple camera built on top of gl-matrix for 2D scenes. Heavily inspired by [Mikola's Orbit Camera](https://github.com/mikolalysenko/orbit-camera).
 
+Also see:
+
+* [canvas-camera-2d](https://github.com/flekschas/canvas-camera-2d) for attaching the camera to a canvas object
+* [webgl-scatterplot](https://github.com/flekschas/webgl-scatterplot) for an application
+
 ## Install
 
 ```
