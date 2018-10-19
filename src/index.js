@@ -2,8 +2,6 @@ import {
   mat3, mat4, vec3,
 } from 'gl-matrix';
 
-// const ang2Rad = angle => angle * (Math.PI / 180);
-
 const createCamera = ({
   target: initTarget = [0, 0],
   distance: initDistance = 1.0,
@@ -12,6 +10,7 @@ const createCamera = ({
   // Scratch variables
   const scratch0 = new Float32Array(16);
   const scratch1 = new Float32Array(16);
+  const scratch2 = new Float32Array(16);
 
   let target = initTarget;
   let distance = initDistance;
@@ -36,18 +35,34 @@ const createCamera = ({
     return out;
   };
 
-  const view = (out) => {
-    if (!out) out = mat4.create(); // eslint-disable-line no-param-reassign
+  const view = (v) => {
+    if (!v) v = mat4.create(); // eslint-disable-line no-param-reassign
 
-    scratch1[0] = 1 / distance;
-    scratch1[1] = scratch1[0]; // eslint-disable-line prefer-destructuring
-    scratch1[2] = 1.0;
+    scratch0[0] = 1 / distance;
+    scratch0[1] = scratch0[0]; // eslint-disable-line prefer-destructuring
+    scratch0[2] = 1.0;
 
-    mat4.fromScaling(out, scratch1);
-    mat4.translate(out, out, center);
-    mat4.rotateZ(out, out, rotation);
+    // View matrix. First scale, then translate
+    mat4.fromScaling(v, scratch0);
+    mat4.translate(v, v, center);
 
-    return out;
+    // Auxilliary frame around which we rotate
+    // I.e., the center of the viewport
+    const a = mat4.create();
+    mat4.fromTranslation(a, vec3.negate(scratch1, center));
+
+    // Rotation matrix
+    const r = mat4.create();
+    mat4.fromRotation(r, rotation, [0, 0, 1]);
+
+    // Finally, we rotate `v` around `a` (the viewport center) by `r`
+    return mat4.multiply(
+      v, a, mat4.multiply(
+        v, r, mat4.multiply(
+          v, mat4.invert(scratch2, a), v,
+        ),
+      ),
+    );
   };
 
   const lookAt = ([x, y] = [], newDistance, newRotation) => {
@@ -66,10 +81,11 @@ const createCamera = ({
   };
 
   const pan = ([x = 0, y = 0] = []) => {
-    scratch0[0] = x * -distance;
-    scratch0[1] = y * distance;
-    scratch0[2] = 0;
-    vec3.sub(center, center, scratch0);
+    center[0] += x * distance;
+    center[1] -= y * distance;
+
+    target[0] -= x * distance;
+    target[1] += y * distance;
   };
 
   const zoom = (d) => {
@@ -77,7 +93,7 @@ const createCamera = ({
   };
 
   const rotate = (rad) => {
-    rotation += rad * distance;
+    rotation += rad;
   };
 
   const reset = () => {
