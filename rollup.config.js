@@ -1,21 +1,21 @@
-import { terser } from 'rollup-plugin-terser';
-import buble from 'rollup-plugin-buble';
+import { terser } from "rollup-plugin-terser";
+import buble from "rollup-plugin-buble";
 
 const config = (file, format, plugins) => ({
-  input: 'src/index.js',
+  input: "src/index.js",
   output: {
-    name: 'createCamera2d',
+    name: "createCamera2d",
     format,
     file,
     globals: {
-      'gl-matrix': 'glMatrix',
-    },
+      "gl-matrix": "glMatrix"
+    }
   },
   plugins,
-  external: ['gl-matrix'],
+  external: ["gl-matrix"]
 });
 
 export default [
-  config('dist/camera-2d.js', 'umd', [buble()]),
-  config('dist/camera-2d.min.js', 'umd', [buble(), terser()]),
+  config("dist/camera-2d.js", "umd", [buble()]),
+  config("dist/camera-2d.min.js", "umd", [buble(), terser()])
 ];

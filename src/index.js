@@ -1,11 +1,9 @@
-import {
-  mat3, mat4, vec3,
-} from 'gl-matrix';
+import { mat3, mat4, vec3 } from "gl-matrix";
 
 const createCamera = ({
   target: initTarget = [0, 0],
   distance: initDistance = 1.0,
-  rotation: initRotation = 0,
+  rotation: initRotation = 0
 } = {}) => {
   // Scratch variables
   const scratch0 = new Float32Array(16);
@@ -19,7 +17,7 @@ const createCamera = ({
   let center = vec3.create();
 
   const getDistance = () => distance;
-  const setDistance = (d) => {
+  const setDistance = d => {
     distance = d;
     if (distance < 0.0) distance = 0.0;
   };
@@ -35,7 +33,7 @@ const createCamera = ({
     return out;
   };
 
-  const view = (v) => {
+  const view = v => {
     if (!v) v = mat4.create(); // eslint-disable-line no-param-reassign
 
     scratch0[0] = 1 / distance;
@@ -57,11 +55,9 @@ const createCamera = ({
 
     // Finally, we rotate `v` around `a` (the viewport center) by `r`
     return mat4.multiply(
-      v, a, mat4.multiply(
-        v, r, mat4.multiply(
-          v, mat4.invert(scratch2, a), v,
-        ),
-      ),
+      v,
+      a,
+      mat4.multiply(v, r, mat4.multiply(v, mat4.invert(scratch2, a), v))
     );
   };
 
@@ -88,11 +84,11 @@ const createCamera = ({
     target[1] += y * distance;
   };
 
-  const zoom = (d) => {
+  const zoom = d => {
     setDistance(distance * d);
   };
 
-  const rotate = (rad) => {
+  const rotate = rad => {
     rotation += rad;
   };
 
@@ -104,17 +100,27 @@ const createCamera = ({
   lookAt(target, distance);
 
   return {
-    get target() { return getTarget(); },
-    get distance() { return getDistance(); },
-    set distance(d) { setDistance(d); },
-    get position() { return getPosition(); },
-    get transformation() { return transformation(); },
+    get target() {
+      return getTarget();
+    },
+    get distance() {
+      return getDistance();
+    },
+    set distance(d) {
+      setDistance(d);
+    },
+    get position() {
+      return getPosition();
+    },
+    get transformation() {
+      return transformation();
+    },
     view,
     lookAt,
     pan,
     rotate,
     zoom,
-    reset,
+    reset
   };
 };
 
