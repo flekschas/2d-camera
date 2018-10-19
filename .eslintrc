@@ -5,7 +5,7 @@
   },
   "extends": [
     "eslint:recommended",
-    "airbnb/base",
+    "prettier",
   ],
   "parserOptions": {
     "ecmaVersion": 2018,
