@@ -1,4 +1,6 @@
-import { mat3, mat4, vec3 } from "gl-matrix";
+import { mat4 } from "gl-matrix";
+
+const VIEW_CENTER = [0, 0, 0];
 
 const createCamera = ({
   target: initTarget = [0, 0],
@@ -10,94 +12,81 @@ const createCamera = ({
   const scratch1 = new Float32Array(16);
   const scratch2 = new Float32Array(16);
 
-  let target = initTarget;
-  let distance = initDistance;
-  let rotation = initRotation;
+  let view = mat4.create();
 
-  let center = vec3.create();
+  const getRotation = () => mat4.getRotation(scratch0, view)[2];
 
-  const getDistance = () => distance;
-  const setDistance = d => {
-    distance = d;
-    if (distance < 0.0) distance = 0.0;
+  const getDistance = () => mat4.getScaling(scratch0, view)[0];
+
+  const getTarget = () =>
+    mat4
+      .getTranslation(scratch0, view)
+      .slice(0, 2)
+      .map(x => -1 * x);
+
+  const getView = () => view;
+
+  const lookAt = (newTarget = [0, 0], newDistance = 1, newRotation = 0) => {
+    // Reset the view
+    view = mat4.create();
+
+    translate(newTarget);
+    rotate(newRotation);
+    scale(newDistance);
   };
 
-  const getPosition = () => [center[0], center[1], distance];
+  const translate = ([x = 0, y = 0] = []) => {
+    scratch0[0] = x;
+    scratch0[1] = -y;
+    scratch0[2] = 0;
 
-  const getTarget = () => center.slice(0, 2).map(x => -1 * x);
+    const t = mat4.fromTranslation(scratch1, scratch0);
 
-  const transformation = () => {
-    const out = mat3.create();
-    mat3.fromTranslation(out, getTarget());
-    mat3.scale(out, out, [distance, distance]);
-    return out;
+    // Translate about the viewport center
+    // This is identical to `i * t * i * view` where `i` is the identity matrix
+    mat4.multiply(view, t, view);
   };
 
-  const view = v => {
-    if (!v) v = mat4.create(); // eslint-disable-line no-param-reassign
+  const scale = (d, mousePos) => {
+    if (d <= 0) return;
 
-    scratch0[0] = 1 / distance;
-    scratch0[1] = scratch0[0]; // eslint-disable-line prefer-destructuring
-    scratch0[2] = 1.0;
+    scratch0[0] = d;
+    scratch0[1] = d;
+    scratch0[2] = 1;
 
-    // View matrix. First scale, then translate
-    mat4.fromScaling(v, scratch0);
-    mat4.translate(v, v, center);
+    const s = mat4.fromScaling(scratch1, scratch0);
 
-    // Auxilliary frame around which we rotate
-    // I.e., the center of the viewport
-    const a = mat4.create();
-    mat4.fromTranslation(a, vec3.negate(scratch1, center));
+    const scaleCenter = mousePos ? [...mousePos, 0] : VIEW_CENTER;
+    const a = mat4.fromTranslation(scratch0, scaleCenter);
 
-    // Rotation matrix
-    const r = mat4.create();
-    mat4.fromRotation(r, rotation, [0, 0, 1]);
-
-    // Finally, we rotate `v` around `a` (the viewport center) by `r`
-    return mat4.multiply(
-      v,
+    // Translate about the scale center
+    // I.e., the mouse position or the view center
+    mat4.multiply(
+      view,
       a,
-      mat4.multiply(v, r, mat4.multiply(v, mat4.invert(scratch2, a), v))
+      mat4.multiply(
+        view,
+        s,
+        mat4.multiply(view, mat4.invert(scratch2, a), view)
+      )
     );
   };
 
-  const lookAt = ([x, y] = [], newDistance, newRotation) => {
-    if (+x && +y) {
-      target = [+x * -1 || 0, +y * -1 || 0];
-      center = [target[0], target[1], 0];
-    }
-
-    if (+newDistance >= 0) {
-      distance = newDistance;
-    }
-
-    if (+newRotation) {
-      rotation = newRotation;
-    }
-  };
-
-  const pan = ([x = 0, y = 0] = []) => {
-    center[0] += x * distance;
-    center[1] -= y * distance;
-
-    target[0] -= x * distance;
-    target[1] += y * distance;
-  };
-
-  const zoom = d => {
-    setDistance(distance * d);
-  };
-
   const rotate = rad => {
-    rotation += rad;
+    const r = mat4.create();
+    mat4.fromRotation(r, rad, [0, 0, 1]);
+
+    // Rotate about the viewport center
+    // This is identical to `i * r * i * view` where `i` is the identity matrix
+    mat4.multiply(view, r, view);
   };
 
   const reset = () => {
-    lookAt(initTarget, initDistance);
+    lookAt(initTarget, initDistance, initRotation);
   };
 
   // Init
-  lookAt(target, distance);
+  lookAt(initTarget, initDistance, initRotation);
 
   return {
     get target() {
@@ -106,20 +95,18 @@ const createCamera = ({
     get distance() {
       return getDistance();
     },
-    set distance(d) {
-      setDistance(d);
+    get rotation() {
+      return getRotation();
     },
-    get position() {
-      return getPosition();
+    get view() {
+      return getView();
     },
-    get transformation() {
-      return transformation();
-    },
-    view,
     lookAt,
-    pan,
+    translate,
+    pan: translate,
     rotate,
-    zoom,
+    scale,
+    zoom: scale,
     reset
   };
 };
