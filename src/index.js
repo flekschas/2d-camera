@@ -1,6 +1,6 @@
-import { mat4 } from "gl-matrix";
+import { mat4, vec4 } from "gl-matrix";
 
-const VIEW_CENTER = [0, 0, 0];
+const VIEW_CENTER = [0, 0, 0, 1];
 
 const createCamera = ({
   target: initTarget = [0, 0],
@@ -14,30 +14,31 @@ const createCamera = ({
 
   let view = mat4.create();
 
-  const getRotation = () => mat4.getRotation(scratch0, view)[2];
+  const getRotation = () => Math.acos(view[0]);
 
-  const getDistance = () => mat4.getScaling(scratch0, view)[0];
+  const getScaling = () => mat4.getScaling(scratch0, view)[0];
+
+  const getDistance = () => 1 / getScaling();
+
+  const getTranslation = () => mat4.getTranslation(scratch0, view).slice(0, 2);
 
   const getTarget = () =>
-    mat4
-      .getTranslation(scratch0, view)
-      .slice(0, 2)
-      .map(x => -1 * x);
+    vec4.transformMat4(scratch0, VIEW_CENTER, mat4.invert(scratch2, view));
 
   const getView = () => view;
 
-  const lookAt = (newTarget = [0, 0], newDistance = 1, newRotation = 0) => {
+  const lookAt = ([x = 0, y = 0] = [], newDistance = 1, newRotation = 0) => {
     // Reset the view
     view = mat4.create();
 
-    translate(newTarget);
+    translate([-x, -y]);
     rotate(newRotation);
-    scale(newDistance);
+    scale(1 / newDistance);
   };
 
   const translate = ([x = 0, y = 0] = []) => {
     scratch0[0] = x;
-    scratch0[1] = -y;
+    scratch0[1] = y;
     scratch0[2] = 0;
 
     const t = mat4.fromTranslation(scratch1, scratch0);
@@ -89,8 +90,14 @@ const createCamera = ({
   lookAt(initTarget, initDistance, initRotation);
 
   return {
+    get translation() {
+      return getTranslation();
+    },
     get target() {
       return getTarget();
+    },
+    get scaling() {
+      return getScaling();
     },
     get distance() {
       return getDistance();
