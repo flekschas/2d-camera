@@ -26,7 +26,7 @@ npm install camera-2d-simple
 import createCamera from "camera-2d-simple";
 ```
 
-### `const camera = createCamera(target = [0,0], distance = 1, rotation = 0)`
+#### `const camera = createCamera(target = [0,0], distance = 1, rotation = 0)`
 
 Creates a 2d camera looking at `target` from a certain `distance`.
 
