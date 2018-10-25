@@ -26,35 +26,56 @@ npm install camera-2d-simple
 import createCamera from "camera-2d-simple";
 ```
 
-### `const camera = createCamera(target = [0, 0], distance = 1)`
+### `const camera = createCamera(target = [0,0], distance = 1, rotation = 0)`
 
 Creates a 2d camera looking at `target` from a certain `distance`.
 
 - `target` is the 2d vector the camera is looking at.
 - `distance` is the distance between the target and the camera.
+- `rotation` is angle in radiance around the z axis with respect to the viewport center.
 
 **Returns** A new 2d camera object
 
-### `camera.lookAt(target = [0, 0], distance = 1)`
+### `camera.lookAt(target = [0,0], distance = 1, rotation = 0)`
 
-Move the camera to look at the new position.
+Move the camera to look at .
 
-### `camera.pan(translation)`
+### `camera.pan([x,y])` or `camera.translate([x,y])`
 
-Moves the center of the camera by `translation`. Note that translation must be an array of length 2.
+Moves the center of the camera by `x` and `y` pixel.
 
-### `camera.zoom(delta)`
+### `camera.zoom(delta, scaleCenter)` or `camera.scale(delta, scaleCenter)`
 
-Zooms in or out by some amount. I.e., the new distance is defined as `distance * delta`.
+Zooms in or out by `delta` with respect to `scaleCenter` in `[x,y]`. The new distance will be `distance * delta`.
 
-### `camera.view([out])`
+### `camera.rotate(angle)`
 
-Returns the current view matrix associated to the camera.
+Rotate the camera by `angle` (in radians) around the z axis with respect to the viewport center.
 
-### `camera.position`
+### `camera.reset()`
 
-Is an array of length 3 comprised of the target (x, y) and distance (z) of the camera.
+Reset the camera to the initial target, distance, and rotation.
 
-### `camera.transformation`
+### `camera.view`
 
-Is the current transformation `mat3` associated to the camera.
+The current view matrix (`mat4`) of the camera.
+
+### `camera.translation`
+
+The camera translation needed to look at the `target`.
+
+### `camera.target`
+
+The camera center in normalized device coordinates. This is a shorthand for inverseOf(`camera.view`) \* `[0,0,0,1]`.
+
+### `camera.scaling`
+
+The camera scaling. Larger scales are equivalent of a smaller `distance` to the target.
+
+### `camera.distance`
+
+Distance of the camera to the target. This is a shorthand for the inverse `scaling`, i.e., `1 / scaling`.
+
+### `camera.rotation`
+
+Rotation in radians around the z axis.
