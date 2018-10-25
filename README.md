@@ -36,46 +36,46 @@ Creates a 2d camera looking at `target` from a certain `distance`.
 
 **Returns** A new 2d camera object
 
-### `camera.lookAt(target = [0,0], distance = 1, rotation = 0)`
+#### `camera.lookAt(target = [0,0], distance = 1, rotation = 0)`
 
 Move the camera to look at .
 
-### `camera.pan([x,y])` or `camera.translate([x,y])`
+#### `camera.pan([x,y])` or `camera.translate([x,y])`
 
 Moves the center of the camera by `x` and `y` pixel.
 
-### `camera.zoom(delta, scaleCenter)` or `camera.scale(delta, scaleCenter)`
+#### `camera.zoom(delta, scaleCenter)` or `camera.scale(delta, scaleCenter)`
 
 Zooms in or out by `delta` with respect to `scaleCenter` in `[x,y]`. The new distance will be `distance * delta`.
 
-### `camera.rotate(angle)`
+#### `camera.rotate(angle)`
 
 Rotate the camera by `angle` (in radians) around the z axis with respect to the viewport center.
 
-### `camera.reset()`
+#### `camera.reset()`
 
 Reset the camera to the initial target, distance, and rotation.
 
-### `camera.view`
+#### `camera.view`
 
 The current view matrix (`mat4`) of the camera.
 
-### `camera.translation`
+#### `camera.translation`
 
 The camera translation needed to look at the `target`.
 
-### `camera.target`
+#### `camera.target`
 
 The camera center in normalized device coordinates. This is a shorthand for inverseOf(`camera.view`) \* `[0,0,0,1]`.
 
-### `camera.scaling`
+#### `camera.scaling`
 
 The camera scaling. Larger scales are equivalent of a smaller `distance` to the target.
 
-### `camera.distance`
+#### `camera.distance`
 
 Distance of the camera to the target. This is a shorthand for the inverse `scaling`, i.e., `1 / scaling`.
 
-### `camera.rotation`
+#### `camera.rotation`
 
 Rotation in radians around the z axis.
