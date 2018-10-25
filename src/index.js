@@ -2,11 +2,11 @@ import { mat4, vec4 } from "gl-matrix";
 
 const VIEW_CENTER = [0, 0, 0, 1];
 
-const createCamera = ({
-  target: initTarget = [0, 0],
-  distance: initDistance = 1.0,
-  rotation: initRotation = 0
-} = {}) => {
+const createCamera = (
+  initTarget = [0, 0],
+  initDistance = 1,
+  initRotation = 0
+) => {
   // Scratch variables
   const scratch0 = new Float32Array(16);
   const scratch1 = new Float32Array(16);
