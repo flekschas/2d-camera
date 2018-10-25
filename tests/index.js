@@ -20,7 +20,7 @@ test("creates camera with custom target, distance, and rotation", t => {
   const target = [1, 1];
   const distance = 2;
   const rotation = Math.PI / 2;
-  const camera = createCamera({ target, distance, rotation });
+  const camera = createCamera(target, distance, rotation);
 
   t.ok(camera.target[0] === target[0]);
   t.ok(camera.target[1] === target[1]);
@@ -130,8 +130,16 @@ test("camera distance should be the inverse scaling", t => {
 test("camera should maintain a view transformation matrix", t => {
   t.plan(1);
 
-  const camera = createCamera([1, 1], 2, Math.PI / 2);
+  const distance = 2;
+  const scaling = [1 / distance, 1 / distance, 1];
+  const target = [1, 1];
+  const translation = [target[0], -target[1], 0];
+  const rotation = Math.PI / 2;
+  const camera = createCamera(target, distance, rotation);
   const view = mat4.create();
+  mat4.fromScaling(view, scaling);
+  mat4.translate(view, view, translation);
+  mat4.rotateZ(view, view, rotation);
 
   t.ok(view.every((x, i) => x === camera.view[i]));
 });
