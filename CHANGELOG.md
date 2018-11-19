@@ -2,6 +2,7 @@
 
 - Add tests
 - Add `camera.translate()` and `camera.scale()` as synonyms for `camera.pan()` and `camera.zoom()`
+- Add `camera.set(view)` to directly set specific view matrix
 - Fixed rotation
 - Cleaned up code
 - Changed `camera.view()` to `camera.view`

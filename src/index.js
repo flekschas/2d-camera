@@ -82,6 +82,11 @@ const createCamera = (
     mat4.multiply(view, r, view);
   };
 
+  const set = newView => {
+    if (!newView || newView.length < 16) return;
+    view = newView;
+  };
+
   const reset = () => {
     lookAt(initTarget, initDistance, initRotation);
   };
@@ -114,7 +119,8 @@ const createCamera = (
     rotate,
     scale,
     zoom: scale,
-    reset
+    reset,
+    set
   };
 };
 

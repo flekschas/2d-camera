@@ -52,6 +52,10 @@ Zooms in or out by `delta` with respect to `scaleCenter` in `[x,y]`. The new dis
 
 Rotate the camera by `angle` (in radians) around the z axis with respect to the viewport center.
 
+#### `camera.set(view)`
+
+Set the camera to the `view` matrix (`mat4`).
+
 #### `camera.reset()`
 
 Reset the camera to the initial target, distance, and rotation.
@@ -70,11 +74,11 @@ The camera center in normalized device coordinates. This is a shorthand for inve
 
 #### `camera.scaling`
 
-The camera scaling. Larger scales are equivalent of a smaller `distance` to the target.
+The camera scaling. Larger scaling means the camera is closer to the target. This is the inverse of [`distance`](#cameradistance), i.e., `1 / distance`.
 
 #### `camera.distance`
 
-Distance of the camera to the target. This is a shorthand for the inverse `scaling`, i.e., `1 / scaling`.
+Distance of the camera to the target. This is the inverse of [`scaling`](#camerascaling), i.e., `1 / scaling`.
 
 #### `camera.rotation`
 

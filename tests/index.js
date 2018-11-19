@@ -1,3 +1,5 @@
+/* eslint no-console:0 */
+
 import { mat4 } from "gl-matrix";
 import test from "tape";
 
@@ -38,7 +40,6 @@ test("camera should look at target, distance, and rotation", t => {
 
   camera.lookAt(target, distance, rotation);
 
-  // Since we rotate by 90 degree the target is now
   t.ok(camera.target[0] === target[0]);
   t.ok(camera.target[1] === target[1]);
   t.ok(camera.distance === distance);
@@ -100,6 +101,52 @@ test("camera should reset to initial target, distance, and rotation", t => {
   t.ok(camera.translation[1] === 0);
   t.ok(camera.scaling === 1);
   t.ok(camera.rotation === 0);
+});
+
+test("camera should set view to a specific view matrix", t => {
+  t.plan(4);
+
+  const target = [1, 1];
+  const distance = 2;
+  const rotation = Math.PI / 2;
+
+  const cameraA = createCamera();
+  const cameraB = createCamera();
+
+  cameraA.lookAt(target, distance, rotation);
+  const view = cameraA.view;
+
+  cameraB.set(view);
+
+  t.ok(cameraB.target[0] === cameraA.target[0]);
+  t.ok(cameraB.target[1] === cameraA.target[1]);
+  t.ok(cameraB.distance === cameraA.distance);
+  t.ok(cameraB.rotation === cameraA.rotation);
+});
+
+test("camera shouldn't unset the view on setting invalid or empty views", t => {
+  t.plan(8);
+
+  const target = [1, 1];
+  const distance = 2;
+  const rotation = Math.PI / 2;
+
+  const camera = createCamera(target, distance, rotation);
+
+  camera.set();
+
+  t.ok(camera.target[0] === target[0]);
+  t.ok(camera.target[1] === target[1]);
+  t.ok(camera.distance === distance);
+  t.ok(camera.rotation === rotation);
+
+  const view = camera.view;
+  camera.set(view.slice(0, 15));
+
+  t.ok(camera.target[0] === target[0]);
+  t.ok(camera.target[1] === target[1]);
+  t.ok(camera.distance === distance);
+  t.ok(camera.rotation === rotation);
 });
 
 test("camera target should be the inverse translation", t => {
