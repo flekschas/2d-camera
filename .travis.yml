@@ -1,17 +1,18 @@
 language: node_js
 node_js:
-- '8'
+  - "12"
 branches:
   only:
-  - master
-  - develop
-  - "/^v.*$/"
+    - master
+    - develop
+    - "/^v.*$/"
 before_script:
-- npm install
+  - npm install
 before_deploy:
-- npm run prerelease
+  - npm run prerelease
 deploy:
   - provider: releases
+    edge: true
     skip_cleanup: true
     api_key:
       secure: a2hUDwM96oje3BUtbBLZSYapb0MxBWwq+FX+C08M4POcENIgFPZonhKan0yIBXKkq3qn7m7ab++th+XitBU6DICjnLX19BcWpLTohQE1IKJ/qbTcF8SwTGI73RBdyWKkCxIF3hGG+WSnpZO5nd8KzkLv6h1dFTG9WhBl2tABvMgXiK/wk6hYnPE5bk+8Nwqz5G+EibCmdJqHh1Tu9rHdfVvPeP3D4pb0nvfhnSjRX06Q+IJZ2X5puhfdxEAddY8+faL4hE95Xtuj+s35AqaYyZyzbDmrpBFyCtQkQBZ6rZVlpTpNlSBtxx5V1I1g7l27brrkKO1AxcyPFuBsURupIR7pKo3AYPKkRfewGB2XBPWRFYnvuTLD4EjPHtz8ZTsHX1gIqxfOkODUCp6uIN6tlm2kF+oGvz4S8sVerBRU1D6du2xS1tUX7ZZSfA+08EGDgw+TPZoWwex1uVkX8ViFVpL93VQ7AGYxoLkVs+ZXv79+VwtaRO6UoXQM4XuWgpQs3idZlsTegioxVopCNDxI6Z2Hix89G2089vQY3Aphz1SlhTvrlwUTadJFl6ohm5aFgXCPDycQdWyb0MCYJIuhgEdTT6Fi+dvVmdeVKAj/nHyb7fXJsygiiBXDmean5CZ4MjGVwPunSuXceOorSdoJn45pvXZfowIxNdmtgz03Fmo=
@@ -21,10 +22,11 @@ deploy:
       tags: true
       repo: flekschas/camera-2d
   - provider: npm
+    edge: true
     skip_cleanup: true
     email: service@lekschas.de
     api_key:
-      secure: AESK3YGct0TPJBJfNiS6NfxUDQnX2/BEOzrE/BrfGwNwmwVEjDyToUvP1rxDzd64UkkjgFpnkcPfVVXPu6NwzWH+FSqZvSYzRHssbZYOiV0cTT3O1W2mVe5u1ZOzFF/92pocMpzzkxpF/ohrV8Ey51Qkdvl9NRhrKCSCBiljDKqspIaPZkqm/92mnsUQR/lD2iU1dHRutDUsw2FZo7wo1aumoLFhvm1MEk6LvWRe5GQoaQSi+dC1734ySC5nD24b4J5bOsLrJzolBbNgGOm+0g7tPKk7i/TWan3e9O0nJ7Rqmbjvrr2xzcPm1IWVHfKyoN9rAVqBh0jyH4OYOL/yoMhQMi7rk3OVKtm7VJD3GYOQgB804c2OtBIEJgJC+e6MMgFJMOFy8Q57ftnUUGjb/t0c0J0sLJou/gvxZMkzox0FCaMxxUHINVV4pM31itg5OxZWFkPazRvEF7lRyzUdDL5HcWUrq3ezc//J1d5Ze5yXRPlfF2GF4VRHas5d7Y4TH1L9JzgwR7luAFubxGMVxGBU1JnlHrMhfq//PLvUHhQATj9y8z2jKf2nqz2qFKTJXEXeNymlauqoTnDzGa2h3KzxBaQJsYtEnKY00n+lbxCgZPHMnVI//IOtjIfZPmMa1OjRZm1Y/93gOBWzAmm55dn/ERaXFIPObpV93ivDVbM=
+      secure: giukn8KBo+sI6aMe6/b7vyaJf2l/orNmiyLSFyoaNz5AL8Jg+2r8kl5GE+m+raQAK/D3JLUBX9P4mpiiMc8ejaUHyj5Z6tBOuhNJmxyz1qY46pKVxOq6C3VIWsEfaV2o6cOjzq1iv4XWDNUP0tB2JXUxICFuTeSh+JT0kiDQHm9/9kfz1id9NNGUU0sTFzHXRrHDdirrFK2onZokpKW3fc5TdSsm/Urup0CE7Jg17rgNbpfsPq/DnMffpLmMxcWCFXXLtL5y6SuiAq6huhhd51/6xMJGzt4dcFmhXij+bvDAQ2b67yzFRHl/Perc6UkpZnhQ+BPuwB0pAXsF/ctnbppngltaa/9ojBMQDZNlERrhZpAABVG6lrkQuhQXWSxlIWbyrrTQmobbFVnwPrPIFiIYi21X1s4XbzFRSq1f6YfkI8t2mp2vMn6PXflvfrYOPQRkVbWcKo9kdQJPGH/LQFPZrjIMNDSIbRgqupP6j25IA9ZacEm8JF6RrX5OW7It4IpgoHeAAP/uci5RxTb89xD+/L8nxfeeu/zbwKzjWFqi5p4YDadV9zqDSS9mke+OL8Dq4x9iwWf8wXmXUcjTN/ROjvPTG78NadZyWnNbiStuEIRiIpLWvv6rW5DlxgGEQi9EanAibu0qRwRRiT7kw8d3nsQncxTLoe9fE6gpVro=
     on:
       branch: master
       tags: true
