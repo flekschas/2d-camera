@@ -11,8 +11,8 @@
 
 Also see:
 
-- [canvas-camera-2d](https://github.com/flekschas/canvas-camera-2d) for attaching the camera to a canvas object
-- [webgl-scatterplot](https://github.com/flekschas/webgl-scatterplot) for an application
+- [dom-2d-camera](https://github.com/flekschas/dom-2d-camera) for attaching the camera to a DOM object
+- [regl-scatterplot](https://github.com/flekschas/regl-scatterplot) for an application
 
 ## Install
 
