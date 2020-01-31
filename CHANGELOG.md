@@ -7,6 +7,8 @@
 - Cleaned up code
 - Changed `camera.view()` to `camera.view`
 - Removed `camera.position` and `camera.transformation` as both are unnecessary.
+- Update to glMatrix v3
+- Release as ESM
 
 **v1.2.0**
 
