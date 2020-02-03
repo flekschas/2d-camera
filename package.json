@@ -31,8 +31,9 @@
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
     "rollup": "^1.31.0",
-    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-filesize": "^6.2.1",
     "rollup-plugin-terser": "^5.2.0",
+    "rollup-plugin-visualizer": "^3.3.1",
     "tap-spec": "^5.0.0",
     "tape": "^4.13.0"
   },

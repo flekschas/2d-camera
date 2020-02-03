@@ -1,5 +1,4 @@
-import * as mat4 from "gl-matrix/mat4";
-import * as vec4 from "gl-matrix/vec4";
+import { mat4, vec4 } from "gl-matrix";
 
 const VIEW_CENTER = [0, 0, 0, 1];
 
