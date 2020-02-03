@@ -1,3 +1,7 @@
+**v2.0.1**
+
+- Micro change in how glMatrix is imported
+
 **v2.0.0**
 
 - Add tests
