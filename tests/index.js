@@ -6,12 +6,13 @@ import test from "tape";
 import createCamera from "../src";
 
 test("creates camera with default target, distance, and rotation", t => {
-  t.plan(4);
+  t.plan(5);
 
   const camera = createCamera();
 
   t.ok(camera.target[0] === 0);
   t.ok(camera.target[1] === 0);
+  t.ok(camera.target.length === 2);
   t.ok(camera.distance === 1);
   t.ok(camera.rotation === 0);
 });

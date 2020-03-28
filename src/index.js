@@ -23,7 +23,9 @@ const createCamera = (
   const getTranslation = () => mat4.getTranslation(scratch0, view).slice(0, 2);
 
   const getTarget = () =>
-    vec4.transformMat4(scratch0, VIEW_CENTER, mat4.invert(scratch2, view));
+    vec4
+      .transformMat4(scratch0, VIEW_CENTER, mat4.invert(scratch2, view))
+      .slice(0, 2);
 
   const getView = () => view;
 
