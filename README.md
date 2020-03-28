@@ -26,60 +26,79 @@ npm install camera-2d-simple
 import createCamera from "camera-2d-simple";
 ```
 
-#### `const camera = createCamera(target = [0,0], distance = 1, rotation = 0)`
+### Constructor
+
+<a name="createCamera" href="#createCamera">#</a> <b>createCamera</b>(<i>target = [0,0]</i>, <i>distance = 1</i>, <i>rotation = 0</i>, <i>viewCenter = [0,0]</i>)
 
 Creates a 2d camera looking at `target` from a certain `distance`.
 
 - `target` is the 2d vector the camera is looking at.
 - `distance` is the distance between the target and the camera.
 - `rotation` is angle in radiance around the z axis with respect to the viewport center.
+- `viewCenter` is the center point of the canvas w.r.t the view coordinates. When operating in normalized-device coordinates this must be `[0,0]` but the center can differ when operating in pixel coordinates.
 
 **Returns** A new 2d camera object
 
-#### `camera.lookAt(target = [0,0], distance = 1, rotation = 0)`
+### Properties
 
-Move the camera to look at .
-
-#### `camera.pan([x,y])` or `camera.translate([x,y])`
-
-Moves the center of the camera by `x` and `y` pixel.
-
-#### `camera.zoom(delta, scaleCenter)` or `camera.scale(delta, scaleCenter)`
-
-Zooms in or out by `delta` with respect to `scaleCenter` in `[x,y]`. The new distance will be `distance * delta`.
-
-#### `camera.rotate(angle)`
-
-Rotate the camera by `angle` (in radians) around the z axis with respect to the viewport center.
-
-#### `camera.set(view)`
-
-Set the camera to the `view` matrix (`mat4`).
-
-#### `camera.reset()`
-
-Reset the camera to the initial target, distance, and rotation.
-
-#### `camera.view`
+<a name="camera.view" href="#camera.view">#</a> camera.<b>view</b>
 
 The current view matrix (`mat4`) of the camera.
 
-#### `camera.translation`
+<a name="camera.translation" href="#camera.translation">#</a> camera.<b>translation</b>
 
 The camera translation needed to look at the `target`.
 
-#### `camera.target`
+<a name="camera.target" href="#camera.target">#</a> camera.<b>target</b>
 
 The camera center in normalized device coordinates. This is a shorthand for inverseOf(`camera.view`) \* `[0,0,0,1]`.
 
-#### `camera.scaling`
+<a name="camera.scaling" href="#camera.scaling">#</a> camera.<b>scaling</b>
 
-The camera scaling. Larger scaling means the camera is closer to the target. This is the inverse of [`distance`](#cameradistance), i.e., `1 / distance`.
+The camera scaling. Larger scaling means the camera is closer to the target. This is the inverse of [`distance`](#camera.distance), i.e., `1 / distance`.
 
-#### `camera.distance`
+<a name="camera.distance" href="#camera.distance">#</a> camera.<b>distance</b>
 
-Distance of the camera to the target. This is the inverse of [`scaling`](#camerascaling), i.e., `1 / scaling`.
+Distance of the camera to the target. This is the inverse of [`scaling`](#camera.scaling), i.e., `1 / scaling`.
 
-#### `camera.rotation`
+<a name="camera.rotation" href="#camera.rotation">#</a> camera.<b>rotation</b>
 
 Rotation in radians around the z axis.
+
+### Methods
+
+<a name="camera.lookAt" href="#camera.lookAt">#</a> camera.<b>lookAt</b>(<i>target = [0,0]</i>, <i>distance = 1</i>, <i>rotation = 0</i>)
+
+Move the camera center to `target` given the `distance` and `rotation`.
+
+<a name="camera.translate" href="#camera.translate">#</a> camera.<b>translate</b>(<i>[x,y]</i>)
+
+Moves the center of the camera by `x` and `y` pixel.
+
+<a name="camera.pan" href="#camera.pan">#</a> camera.<b>pan</b>(<i>[x,y]</i>)
+
+Same as [`camera.translate()`](#camera.translate)
+
+<a name="camera.scale" href="#camera.scale">#</a> camera.<b>scale</b>(<i>delta</i>, <i>scaleCenter</i>)
+
+Zooms in or out by `delta` with respect to `scaleCenter` in `[x,y]`. The new distance will be `distance * delta`.
+
+<a name="camera.zoom" href="#camera.zoom">#</a> camera.<b>zoom</b>(<i>delta</i>, <i>scaleCenter</i>)
+
+Same as [`camera.scale()`](#camera.scale)
+
+<a name="camera.rotate" href="#camera.rotate">#</a> camera.<b>rotate</b>(<i>angle</i>)
+
+Rotate the camera by `angle` (in radians) around the z axis with respect to the viewport center.
+
+<a name="camera.setView" href="#camera.setView">#</a> camera.<b>setView</b>(<i>view</i>)
+
+Set the camera to the `view` matrix (`mat4`).
+
+<a name="camera.setViewCenter" href="#camera.setViewCenter">#</a> camera.<b>setViewCenter</b>(<i>viewCenter</i>)
+
+Set `viewCenter` w.r.t. the canvas.
+
+<a name="camera.reset" href="#camera.reset">#</a> camera.<b>reset</b>()
+
+Reset the camera to the initial `target`, `distance`, and `rotation`.
