@@ -6,7 +6,7 @@ import test from "tape";
 import createCamera from "../src";
 
 test("creates camera with default target, distance, and rotation", t => {
-  t.plan(5);
+  t.plan(7);
 
   const camera = createCamera();
 
@@ -15,6 +15,8 @@ test("creates camera with default target, distance, and rotation", t => {
   t.ok(camera.target.length === 2);
   t.ok(camera.distance === 1);
   t.ok(camera.rotation === 0);
+  t.ok(camera.viewCenter[0] === 0);
+  t.ok(camera.viewCenter[1] === 0);
 });
 
 test("creates camera with custom target, distance, and rotation", t => {
@@ -190,4 +192,38 @@ test("camera should maintain a view transformation matrix", t => {
   mat4.rotateZ(view, view, rotation);
 
   t.ok(view.every((x, i) => x === camera.view[i]));
+});
+
+test("camera should correctly pan&zoom in pixel space", t => {
+  t.plan(8);
+
+  const size = 100;
+  const initTarget = [size / 2, size / 2];
+  const viewCenter = [size / 2, size / 2];
+  const translation = [-60, 20];
+  const scale = 2.5;
+  const camera = createCamera([0, 0], 1, 0, viewCenter);
+
+  t.ok(camera.target[0] === initTarget[0]);
+  t.ok(camera.target[1] === initTarget[1]);
+  t.ok(camera.viewCenter[0] === viewCenter[0]);
+  t.ok(camera.viewCenter[1] === viewCenter[1]);
+
+  // w.r.t to [0,0], the top-left corner, as we're simulating pixel space
+  camera.pan(translation);
+
+  t.ok(camera.target[0] === viewCenter[0] - translation[0]);
+  t.ok(camera.target[1] === viewCenter[1] - translation[1]);
+
+  camera.zoom(scale);
+
+  // Note that the translation is relative to the top-left corner
+  t.ok(
+    camera.translation[0] ===
+      translation[0] - camera.target[0] * (camera.scaling - 1)
+  );
+  t.ok(
+    camera.translation[1] ===
+      translation[1] - camera.target[1] * (camera.scaling - 1)
+  );
 });
