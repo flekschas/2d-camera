@@ -45,6 +45,10 @@ Creates a 2d camera looking at `target` from a certain `distance`.
 
 The current view matrix (`mat4`) of the camera.
 
+<a name="camera.viewCenter" href="#camera.viewCenter">#</a> camera.<b>viewCenter</b>
+
+The current view center.
+
 <a name="camera.translation" href="#camera.translation">#</a> camera.<b>translation</b>
 
 The camera translation needed to look at the `target`.

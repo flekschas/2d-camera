@@ -31,6 +31,8 @@ const createCamera = (
 
   const getView = () => view;
 
+  const getViewCenter = () => viewCenter;
+
   const lookAt = ([x = 0, y = 0] = [], newDistance = 1, newRotation = 0) => {
     // Reset the view
     view = mat4.create();
@@ -120,6 +122,9 @@ const createCamera = (
     },
     get view() {
       return getView();
+    },
+    get viewCenter() {
+      return getViewCenter();
     },
     lookAt,
     translate,
