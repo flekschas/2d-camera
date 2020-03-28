@@ -1,3 +1,9 @@
+**v2.1.0**
+
+- Add support for a custom view center to allow using the camera with non normalized-device coordinates. For that I added `initViewCenter` as the forth argument to the constructor and`.setViewCenter()` for adjusting the view center.
+- Rename `.set()` to `setView()` and deprecate `.set()`
+- Ensure that `target` is a tuple to avoid confusion
+
 **v2.0.1**
 
 - Micro change in how glMatrix is imported
