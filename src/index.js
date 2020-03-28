@@ -1,12 +1,10 @@
 import { mat4, vec4 } from "gl-matrix";
 
-const VIEW_CENTER = [0, 0, 0, 1];
-
 const createCamera = (
   initTarget = [0, 0],
   initDistance = 1,
   initRotation = 0,
-  initViewCenter = null
+  initViewCenter = [0, 0]
 ) => {
   // Scratch variables
   const scratch0 = new Float32Array(16);
@@ -14,7 +12,7 @@ const createCamera = (
   const scratch2 = new Float32Array(16);
 
   let view = mat4.create();
-  let viewCenter = initViewCenter || VIEW_CENTER;
+  let viewCenter = [...initViewCenter.slice(0, 2), 0, 1];
 
   const getRotation = () => Math.acos(view[0]);
 
@@ -31,7 +29,7 @@ const createCamera = (
 
   const getView = () => view;
 
-  const getViewCenter = () => viewCenter;
+  const getViewCenter = () => viewCenter.slice(0, 2);
 
   const lookAt = ([x = 0, y = 0] = [], newDistance = 1, newRotation = 0) => {
     // Reset the view
@@ -94,7 +92,7 @@ const createCamera = (
   };
 
   const setViewCenter = newViewCenter => {
-    viewCenter = newViewCenter;
+    viewCenter = [...newViewCenter.slice(0, 2), 0, 1];
   };
 
   const reset = () => {
