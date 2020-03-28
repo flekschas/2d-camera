@@ -5,7 +5,8 @@ const VIEW_CENTER = [0, 0, 0, 1];
 const createCamera = (
   initTarget = [0, 0],
   initDistance = 1,
-  initRotation = 0
+  initRotation = 0,
+  initViewCenter = null
 ) => {
   // Scratch variables
   const scratch0 = new Float32Array(16);
@@ -13,6 +14,7 @@ const createCamera = (
   const scratch2 = new Float32Array(16);
 
   let view = mat4.create();
+  let viewCenter = initViewCenter || VIEW_CENTER;
 
   const getRotation = () => Math.acos(view[0]);
 
@@ -24,7 +26,7 @@ const createCamera = (
 
   const getTarget = () =>
     vec4
-      .transformMat4(scratch0, VIEW_CENTER, mat4.invert(scratch2, view))
+      .transformMat4(scratch0, viewCenter, mat4.invert(scratch2, view))
       .slice(0, 2);
 
   const getView = () => view;
@@ -59,7 +61,7 @@ const createCamera = (
 
     const s = mat4.fromScaling(scratch1, scratch0);
 
-    const scaleCenter = mousePos ? [...mousePos, 0] : VIEW_CENTER;
+    const scaleCenter = mousePos ? [...mousePos, 0] : viewCenter;
     const a = mat4.fromTranslation(scratch0, scaleCenter);
 
     // Translate about the scale center
@@ -84,9 +86,13 @@ const createCamera = (
     mat4.multiply(view, r, view);
   };
 
-  const set = newView => {
+  const setView = newView => {
     if (!newView || newView.length < 16) return;
     view = newView;
+  };
+
+  const setViewCenter = newViewCenter => {
+    viewCenter = newViewCenter;
   };
 
   const reset = () => {
@@ -122,7 +128,12 @@ const createCamera = (
     scale,
     zoom: scale,
     reset,
-    set
+    set: (...args) => {
+      console.warn("Deprecated. Please use `setView()` instead.");
+      return setView(...args);
+    },
+    setView,
+    setViewCenter
   };
 };
 
