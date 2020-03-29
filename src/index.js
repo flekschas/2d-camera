@@ -4,7 +4,8 @@ const createCamera = (
   initTarget = [0, 0],
   initDistance = 1,
   initRotation = 0,
-  initViewCenter = [0, 0]
+  initViewCenter = [0, 0],
+  initScaleBounds = [0, Infinity]
 ) => {
   // Scratch variables
   const scratch0 = new Float32Array(16);
@@ -14,9 +15,13 @@ const createCamera = (
   let view = mat4.create();
   let viewCenter = [...initViewCenter.slice(0, 2), 0, 1];
 
+  const scaleBounds = [...initScaleBounds];
+
   const getRotation = () => Math.acos(view[0]);
 
   const getScaling = () => mat4.getScaling(scratch0, view)[0];
+
+  const getScaleBounds = () => [...scaleBounds];
 
   const getDistance = () => 1 / getScaling();
 
@@ -55,6 +60,13 @@ const createCamera = (
   const scale = (d, mousePos) => {
     if (d <= 0) return;
 
+    const scale = getScaling();
+    const newScale = scale * d;
+
+    d = Math.max(scaleBounds[0], Math.min(newScale, scaleBounds[1])) / scale;
+
+    if (d === 1) return; // There is nothing to do
+
     scratch0[0] = d;
     scratch0[1] = d;
     scratch0[2] = 1;
@@ -86,6 +98,11 @@ const createCamera = (
     mat4.multiply(view, r, view);
   };
 
+  const setScaleBounds = newBounds => {
+    scaleBounds[0] = newBounds[0];
+    scaleBounds[1] = newBounds[1];
+  };
+
   const setView = newView => {
     if (!newView || newView.length < 16) return;
     view = newView;
@@ -112,6 +129,9 @@ const createCamera = (
     get scaling() {
       return getScaling();
     },
+    get scaleBounds() {
+      return getScaleBounds();
+    },
     get distance() {
       return getDistance();
     },
@@ -135,6 +155,7 @@ const createCamera = (
       console.warn("Deprecated. Please use `setView()` instead.");
       return setView(...args);
     },
+    setScaleBounds,
     setView,
     setViewCenter
   };

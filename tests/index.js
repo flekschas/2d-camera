@@ -6,7 +6,7 @@ import test from "tape";
 import createCamera from "../src";
 
 test("creates camera with default target, distance, and rotation", t => {
-  t.plan(7);
+  t.plan(9);
 
   const camera = createCamera();
 
@@ -17,6 +17,8 @@ test("creates camera with default target, distance, and rotation", t => {
   t.ok(camera.rotation === 0);
   t.ok(camera.viewCenter[0] === 0);
   t.ok(camera.viewCenter[1] === 0);
+  t.ok(camera.scaleBounds[0] === 0);
+  t.ok(camera.scaleBounds[1] === Infinity);
 });
 
 test("creates camera with custom target, distance, and rotation", t => {
@@ -77,6 +79,23 @@ test("camera should zoom / scale", t => {
   camera.scale(scaling);
 
   t.ok(camera.scaling === scaling ** 2);
+});
+
+test("camera accept scale bounds", t => {
+  t.plan(3);
+
+  const camera = createCamera();
+  camera.setScaleBounds([0.5, 2.5]);
+
+  camera.zoom(0.25);
+
+  t.ok(camera.scaling === 0.5);
+
+  camera.scale(4);
+  t.ok(camera.scaling === 2);
+
+  camera.scale(2);
+  t.ok(camera.scaling === 2.5);
 });
 
 test("camera should rotate", t => {

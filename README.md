@@ -28,7 +28,7 @@ import createCamera from "camera-2d-simple";
 
 ### Constructor
 
-<a name="createCamera" href="#createCamera">#</a> <b>createCamera</b>(<i>target = [0,0]</i>, <i>distance = 1</i>, <i>rotation = 0</i>, <i>viewCenter = [0,0]</i>)
+<a name="createCamera" href="#createCamera">#</a> <b>createCamera</b>(<i>target = [0,0]</i>, <i>distance = 1</i>, <i>rotation = 0</i>, <i>viewCenter = [0,0]</i>, <i>scaleBounds = [0,Infinity]</i>)
 
 Creates a 2d camera looking at `target` from a certain `distance`.
 
@@ -36,6 +36,7 @@ Creates a 2d camera looking at `target` from a certain `distance`.
 - `distance` is the distance between the target and the camera.
 - `rotation` is angle in radiance around the z axis with respect to the viewport center.
 - `viewCenter` is the center point of the canvas w.r.t the view coordinates. When operating in normalized-device coordinates this must be `[0,0]` but the center can differ when operating in pixel coordinates.
+- `scaleBounds` are the min and max allowed scalings.
 
 **Returns** A new 2d camera object
 
@@ -60,6 +61,10 @@ The camera center in normalized device coordinates. This is a shorthand for inve
 <a name="camera.scaling" href="#camera.scaling">#</a> camera.<b>scaling</b>
 
 The camera scaling. Larger scaling means the camera is closer to the target. This is the inverse of [`distance`](#camera.distance), i.e., `1 / distance`.
+
+<a name="camera.scaleBounds" href="#camera.scaleBounds">#</a> camera.<b>scaleBounds</b>
+
+The scale limits.
 
 <a name="camera.distance" href="#camera.distance">#</a> camera.<b>distance</b>
 
@@ -94,6 +99,10 @@ Same as [`camera.scale()`](#camera.scale)
 <a name="camera.rotate" href="#camera.rotate">#</a> camera.<b>rotate</b>(<i>angle</i>)
 
 Rotate the camera by `angle` (in radians) around the z axis with respect to the viewport center.
+
+<a name="camera.setScaleBounds" href="#camera.setScaleBounds">#</a> camera.<b>setScaleBounds</b>(<i>bounds</i>)
+
+Set the scaling limits. Expects a tuple of the min and max allowed scale factors.
 
 <a name="camera.setView" href="#camera.setView">#</a> camera.<b>setView</b>(<i>view</i>)
 

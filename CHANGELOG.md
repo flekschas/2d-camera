@@ -1,3 +1,7 @@
+**v2.2.0**
+
+- Add `scaleBounds` to allow limiting the scaling
+
 **v2.1.0**
 
 - Add support for a custom view center to allow using the camera with non normalized-device coordinates. For that I added `initViewCenter` as the forth argument to the constructor and`.setViewCenter()` for adjusting the view center.
