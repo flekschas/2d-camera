@@ -152,7 +152,7 @@ const createCamera = (
     zoom: scale,
     reset,
     set: (...args) => {
-      console.warn("Deprecated. Please use `setView()` instead.");
+      console.warn("`set()` is deprecated. Please use `setView()` instead.");
       return setView(...args);
     },
     setScaleBounds,
