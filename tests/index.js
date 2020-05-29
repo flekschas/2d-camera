@@ -138,7 +138,7 @@ test("camera should set view to a specific view matrix", t => {
   cameraA.lookAt(target, distance, rotation);
   const view = cameraA.view;
 
-  cameraB.set(view);
+  cameraB.setView(view);
 
   t.ok(cameraB.target[0] === cameraA.target[0]);
   t.ok(cameraB.target[1] === cameraA.target[1]);
@@ -155,7 +155,7 @@ test("camera shouldn't unset the view on setting invalid or empty views", t => {
 
   const camera = createCamera(target, distance, rotation);
 
-  camera.set();
+  camera.setView();
 
   t.ok(camera.target[0] === target[0]);
   t.ok(camera.target[1] === target[1]);
@@ -163,7 +163,7 @@ test("camera shouldn't unset the view on setting invalid or empty views", t => {
   t.ok(camera.rotation === rotation);
 
   const view = camera.view;
-  camera.set(view.slice(0, 15));
+  camera.setView(view.slice(0, 15));
 
   t.ok(camera.target[0] === target[0]);
   t.ok(camera.target[1] === target[1]);
