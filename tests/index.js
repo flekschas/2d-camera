@@ -5,6 +5,10 @@ import test from "tape";
 
 import createCamera from "../src";
 
+const EPS = 1e-7;
+
+const floatEqual = (a, b) => Math.abs(a - b) <= EPS;
+
 test("creates camera with default target, distance, and rotation", t => {
   t.plan(9);
 
@@ -26,29 +30,29 @@ test("creates camera with custom target, distance, and rotation", t => {
 
   const target = [1, 1];
   const distance = 2;
-  const rotation = Math.PI / 2;
+  const rotation = Math.PI / 4;
   const camera = createCamera(target, distance, rotation);
 
   t.ok(camera.target[0] === target[0]);
   t.ok(camera.target[1] === target[1]);
   t.ok(camera.distance === distance);
-  t.ok(camera.rotation === rotation);
+  t.ok(floatEqual(camera.rotation, rotation));
 });
 
 test("camera should look at target, distance, and rotation", t => {
   t.plan(4);
 
-  const target = [1, 1];
-  const distance = 2;
-  const rotation = Math.PI / 2;
+  const target = [0.92, 1.03];
+  const distance = 2.1337;
+  const rotation = Math.PI / 4.125;
   const camera = createCamera();
 
   camera.lookAt(target, distance, rotation);
 
-  t.ok(camera.target[0] === target[0]);
-  t.ok(camera.target[1] === target[1]);
-  t.ok(camera.distance === distance);
-  t.ok(camera.rotation === rotation);
+  t.ok(floatEqual(camera.target[0], target[0]));
+  t.ok(floatEqual(camera.target[1], target[1]));
+  t.ok(floatEqual(camera.distance, distance));
+  t.ok(floatEqual(camera.rotation, rotation));
 });
 
 test("camera should pan / translate", t => {
@@ -101,22 +105,22 @@ test("camera accept scale bounds", t => {
 test("camera should rotate", t => {
   t.plan(2);
 
-  const radians = Math.PI;
+  const radians = Math.PI / 4;
   const camera = createCamera();
   camera.rotate(radians);
 
-  t.ok(camera.rotation === radians);
+  t.ok(floatEqual(camera.rotation, radians));
 
   camera.rotate(radians);
 
-  t.ok(camera.rotation === 0);
+  t.ok(floatEqual(camera.rotation, radians * 2));
 });
 
 test("camera should reset to initial target, distance, and rotation", t => {
   t.plan(4);
 
   const camera = createCamera();
-  camera.lookAt([1, 1], 2, Math.PI / 2);
+  camera.lookAt([1, 1], 2, Math.PI / 4);
   camera.reset();
 
   t.ok(camera.translation[0] === 0);
@@ -130,7 +134,7 @@ test("camera should set view to a specific view matrix", t => {
 
   const target = [1, 1];
   const distance = 2;
-  const rotation = Math.PI / 2;
+  const rotation = Math.PI / 4;
 
   const cameraA = createCamera();
   const cameraB = createCamera();
@@ -143,7 +147,7 @@ test("camera should set view to a specific view matrix", t => {
   t.ok(cameraB.target[0] === cameraA.target[0]);
   t.ok(cameraB.target[1] === cameraA.target[1]);
   t.ok(cameraB.distance === cameraA.distance);
-  t.ok(cameraB.rotation === cameraA.rotation);
+  t.ok(floatEqual(cameraB.rotation, rotation));
 });
 
 test("camera shouldn't unset the view on setting invalid or empty views", t => {
@@ -151,7 +155,7 @@ test("camera shouldn't unset the view on setting invalid or empty views", t => {
 
   const target = [1, 1];
   const distance = 2;
-  const rotation = Math.PI / 2;
+  const rotation = Math.PI / 4;
 
   const camera = createCamera(target, distance, rotation);
 
@@ -160,7 +164,7 @@ test("camera shouldn't unset the view on setting invalid or empty views", t => {
   t.ok(camera.target[0] === target[0]);
   t.ok(camera.target[1] === target[1]);
   t.ok(camera.distance === distance);
-  t.ok(camera.rotation === rotation);
+  t.ok(floatEqual(camera.rotation, rotation));
 
   const view = camera.view;
   camera.setView(view.slice(0, 15));
@@ -168,7 +172,7 @@ test("camera shouldn't unset the view on setting invalid or empty views", t => {
   t.ok(camera.target[0] === target[0]);
   t.ok(camera.target[1] === target[1]);
   t.ok(camera.distance === distance);
-  t.ok(camera.rotation === rotation);
+  t.ok(floatEqual(camera.rotation, rotation));
 });
 
 test("camera target should be the inverse translation", t => {

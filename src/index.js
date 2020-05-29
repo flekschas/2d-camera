@@ -17,7 +17,7 @@ const createCamera = (
 
   const scaleBounds = [...initScaleBounds];
 
-  const getRotation = () => Math.acos(view[0]);
+  const getRotation = () => Math.acos(view[0] / getScaling());
 
   const getScaling = () => mat4.getScaling(scratch0, view)[0];
 

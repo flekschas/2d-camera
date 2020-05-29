@@ -1,3 +1,7 @@
+**v2.2.1**
+
+- Fix incorrectly reported `camera.rotation`
+
 **v2.2.0**
 
 - Add `scaleBounds` to allow limiting the scaling
